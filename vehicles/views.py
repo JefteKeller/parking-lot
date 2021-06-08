@@ -1,3 +1,6 @@
+from datetime import timedelta, datetime, timezone
+from django.shortcuts import get_object_or_404
+
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,6 +9,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 from levels.models import Level, LevelSpace
+
+from pricings.models import Pricing
+from pricings.serializers import PricingSerializer
+from pricings.services import calculate_vehicle_parking_bill
 
 from .models import Vehicle
 from .serializers import VehicleSerializer
@@ -18,6 +25,12 @@ class CreateUpdateVehicleView(APIView):
     def post(self, request):
         input_serializer = VehicleSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
+
+        recent_pricing = Pricing.objects.last()
+
+        if not recent_pricing:
+            return Response({'error': 'There is not a base pricing set.'},
+                            status=status.HTTP_404_NOT_FOUND)
 
         vehicle_type = request.data['vehicle_type']
 
@@ -53,4 +66,36 @@ class CreateUpdateVehicleView(APIView):
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request, vehicle_id=None):
-        return Response('')
+        request_entry = get_object_or_404(Vehicle, id=vehicle_id)
+
+        output_data = VehicleSerializer(request_entry).data
+        request_entry.space.delete()
+        request_entry.delete()
+
+        recent_pricing = Pricing.objects.last()
+
+        if not recent_pricing:
+            return Response({'error': 'There is not a base pricing set.'},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        output_price_serializer = PricingSerializer(recent_pricing).data
+
+        del output_price_serializer['id']
+
+        time_elapsed_parked = datetime.now(
+            timezone.utc) - request_entry.arrived_at
+
+        time_elapsed_parked = round(time_elapsed_parked.total_seconds() / 3600)
+
+        output_data['amount_paid'] = calculate_vehicle_parking_bill(
+            output_price_serializer['a_coefficient'],
+            output_price_serializer['b_coefficient'],
+            time_elapsed_parked,
+        )
+
+        output_data['paid_at'] = datetime.now(timezone.utc)
+        output_data['space'] = None
+
+        del output_data['id']
+
+        return Response(output_data, status=status.HTTP_200_OK)

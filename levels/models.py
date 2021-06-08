@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Level(models.Model):
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     fill_priority = models.IntegerField()
     motorcycle_spaces = models.IntegerField()
     car_spaces = models.IntegerField()
