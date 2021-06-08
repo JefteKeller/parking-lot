@@ -19,13 +19,29 @@ class CreateUpdateVehicleView(APIView):
         input_serializer = VehicleSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
-        # TODO Implement business rules to select the space level for the Vehicle
-        filtered_level = Level.objects.get(id=1)
+        vehicle_type = request.data['vehicle_type']
+
+        all_levels = Level.objects.all().order_by('fill_priority')
+        chosen_level = None
+
+        for level in all_levels:
+            level_capacity = level.car_spaces if vehicle_type == 'car' else level.motorcycle_spaces
+
+            if level.level_spaces.filter(
+                    variety=vehicle_type).count() < level_capacity:
+
+                chosen_level = level
+                break
+
+        if not chosen_level:
+            return Response(
+                {'error': 'There is not a Level or Space available.'},
+                status=status.HTTP_404_NOT_FOUND)
 
         chosen_level_space = LevelSpace.objects.create(
             variety=request.data['vehicle_type'],
-            level_name=filtered_level.name,
-            level=filtered_level)
+            level_name=chosen_level.name,
+            level=chosen_level)
 
         registered_vehicle = Vehicle.objects.create(
             vehicle_type=request.data['vehicle_type'],

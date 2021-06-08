@@ -11,4 +11,6 @@ class Vehicle(models.Model):
     paid_at = models.DateTimeField(default=None, blank=True, null=True)
     amount_paid = models.IntegerField(default=None, blank=True, null=True)
 
-    space = models.ForeignKey(LevelSpace, on_delete=models.CASCADE)
+    space = models.ForeignKey(LevelSpace,
+                              on_delete=models.CASCADE,
+                              related_name='vehicles')
