@@ -27,26 +27,32 @@ Running migrations:
   Applying authtoken.0002_auto_20160226_1747... OK
   Applying authtoken.0003_tokenproxy... OK
   Applying levels.0001_initial... OK
-  Applying levels.0002_alter_level_name... OK
   Applying pricings.0001_initial... OK
   Applying sessions.0001_initial... OK
   Applying vehicles.0001_initial... OK
 System check identified no issues (0 silenced).
-test_create_account_and_login (tests.TestAccountView) ... ok
-test_admin_create_level (tests.TestInfrastructureView) ... ok
-test_admin_create_pricing (tests.TestInfrastructureView) ... ok
-test_get_level_info (tests.TestInfrastructureView) ... ok
-test_only_admin_can_create_pricing (tests.TestInfrastructureView) ... ok
-test_404_after_filling_all_spaces (tests.TestVehicleView) ... ok
-test_cars_and_motorcycles_take_different_spaces (tests.TestVehicleView) ... ok
-test_create_vehicle_takes_space (tests.TestVehicleView) ... ok
-test_create_vehicle_with_no_levels_gives_404 (tests.TestVehicleView) ... ok
-test_create_vehicle_with_no_pricing_gives_404 (tests.TestVehicleView) ... ok
-test_pricing_rules (tests.TestVehicleView) ... ok
-test_spaces_are_filled_by_priority (tests.TestVehicleView) ... ok
+test_should_create_admin_user (accounts.test_views.TestCreateAdminView) ... ok
+test_should_not_create_duplicated_user (accounts.test_views.TestCreateAdminView) ... ok
+test_should_create_level (levels.test_views.TestCreateListLevelView) ... ok
+test_should_list_levels (levels.test_views.TestCreateListLevelView) ... ok
+test_should_not_create_level_with_invalid_data (levels.test_views.TestCreateListLevelView) ... ok
+test_should_create_pricing (pricings.test_views.TestCreatePricing) ... ok
+test_should_not_create_pricing_with_invalid_data (pricings.test_views.TestCreatePricing) ... ok
+test_create_account_and_login (test_api.TestAccountView) ... ok
+test_admin_create_level (test_api.TestInfrastructureView) ... ok
+test_admin_create_pricing (test_api.TestInfrastructureView) ... ok
+test_get_level_info (test_api.TestInfrastructureView) ... ok
+test_only_admin_can_create_pricing (test_api.TestInfrastructureView) ... ok
+test_404_after_filling_all_spaces (test_api.TestVehicleView) ... ok
+test_cars_and_motorcycles_take_different_spaces (test_api.TestVehicleView) ... ok
+test_create_vehicle_takes_space (test_api.TestVehicleView) ... ok
+test_create_vehicle_with_no_levels_gives_404 (test_api.TestVehicleView) ... ok
+test_create_vehicle_with_no_pricing_gives_404 (test_api.TestVehicleView) ... ok
+test_pricing_rules (test_api.TestVehicleView) ... ok
+test_spaces_are_filled_by_priority (test_api.TestVehicleView) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 1.818s
+Ran 19 tests in 2.404s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

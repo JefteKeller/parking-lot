@@ -1,0 +1,47 @@
+Name                                  Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------
+accounts/__init__.py                      0      0   100%
+accounts/admin.py                         1      0   100%
+accounts/apps.py                          4      0   100%
+accounts/migrations/__init__.py           0      0   100%
+accounts/models.py                        1      0   100%
+accounts/serializers.py                   7      0   100%
+accounts/test_views.py                   19      0   100%
+accounts/urls.py                          4      0   100%
+accounts/views.py                        18      0   100%
+levels/__init__.py                        0      0   100%
+levels/admin.py                           1      0   100%
+levels/apps.py                            4      0   100%
+levels/migrations/0001_initial.py         6      0   100%
+levels/migrations/__init__.py             0      0   100%
+levels/models.py                         20      0   100%
+levels/serializers.py                    11      0   100%
+levels/test_views.py                     36      0   100%
+levels/urls.py                            3      0   100%
+levels/views.py                          31      0   100%
+parking_lot/__init__.py                   0      0   100%
+parking_lot/settings.py                  22      0   100%
+parking_lot/urls.py                       3      0   100%
+pricings/__init__.py                      0      0   100%
+pricings/admin.py                         1      0   100%
+pricings/apps.py                          4      0   100%
+pricings/migrations/0001_initial.py       5      0   100%
+pricings/migrations/__init__.py           0      0   100%
+pricings/models.py                        9      0   100%
+pricings/serializers.py                   5      0   100%
+pricings/test_views.py                   24      0   100%
+pricings/urls.py                          3      0   100%
+pricings/views.py                        16      0   100%
+test_api.py                             181      0   100%
+vehicles/__init__.py                      0      0   100%
+vehicles/admin.py                         1      0   100%
+vehicles/apps.py                          4      0   100%
+vehicles/migrations/0001_initial.py       6      0   100%
+vehicles/migrations/__init__.py           0      0   100%
+vehicles/models.py                       14      0   100%
+vehicles/serializers.py                  10      0   100%
+vehicles/tests.py                         1      0   100%
+vehicles/urls.py                          3      0   100%
+vehicles/views.py                        40      1    98%   61
+-------------------------------------------------------------------
+TOTAL                                   518      1    99%
