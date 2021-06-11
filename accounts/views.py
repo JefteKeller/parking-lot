@@ -2,7 +2,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
 from django.contrib.auth.models import User
@@ -32,18 +31,3 @@ class CreateAdminUserView(APIView):
         output_serializer = AccountSerializer(new_user)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
-
-
-class LoginAdminUserView(APIView):
-    def post(self, request):
-
-        found_user = authenticate(username=request.data['username'],
-                                  password=request.data['password'])
-
-        if not found_user:
-            return Response({'message': 'Invalid credentials'},
-                            status=status.HTTP_401_UNAUTHORIZED)
-
-        user_token = Token.objects.get(user=found_user)
-
-        return Response({'token': user_token.key}, status=status.HTTP_200_OK)

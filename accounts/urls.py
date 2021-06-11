@@ -1,10 +1,9 @@
 from django.urls import path
 
-from rest_framework.authtoken.views import obtain_auth_token
-from .views import CreateAdminUserView, LoginAdminUserView
+from rest_framework.authtoken import views
+from .views import CreateAdminUserView
 
 urlpatterns = [
     path('accounts/', CreateAdminUserView.as_view()),
-    # path('login/', LoginAdminUserView.as_view()),
-    path('login/', obtain_auth_token),
+    path('login/', views.obtain_auth_token),
 ]

@@ -14,3 +14,11 @@ class Vehicle(models.Model):
     space = models.ForeignKey(LevelSpace,
                               on_delete=models.CASCADE,
                               related_name='vehicles')
+
+    def calculate_vehicle_parking_bill(self, a_coefficient, b_coefficient):
+        from datetime import datetime, timezone
+
+        time_parked_delta = datetime.now(timezone.utc) - self.arrived_at
+        time_parked = round(time_parked_delta.total_seconds() / 3600)
+
+        return (a_coefficient + b_coefficient) * time_parked

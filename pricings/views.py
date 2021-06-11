@@ -18,6 +18,6 @@ class CreatePricingView(APIView):
         input_serializer.is_valid(raise_exception=True)
 
         new_pricing = Pricing.objects.create(**input_serializer.data)
-        output_serializer = PricingSerializer(new_pricing)
+        output_data = PricingSerializer(new_pricing).data
 
-        return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(output_data, status=status.HTTP_201_CREATED)
